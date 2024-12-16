@@ -962,7 +962,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         Connection con = DriverManager.getConnection(sUrl, sUser, sPass);
         
         // Using a PreparedStatement to fetch data dynamically
-        String query = "SELECT * FROM bills_info WHERE meter_number = ? AND LOWER(month) = ? AND status = 'Not paid' ORDER BY meterID DESC LIMIT 1";
+        String query = "SELECT * FROM bills_info WHERE meter_number = ? AND LOWER(month) = ? ORDER BY meterID DESC LIMIT 1";
         PreparedStatement pst = con.prepareStatement(query);
         pst.setString(1, PmeterN.getText().trim()); // Get the meter number dynamically
         pst.setString(2, Pmonth.getSelectedItem().toString().toLowerCase()); // Get selected month
