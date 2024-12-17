@@ -6,6 +6,7 @@ package billingsystem;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.sql.*;
 /**
  *
  * @author dexte
@@ -19,7 +20,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents();
         
     }
-
+    String sUrl = "jdbc:MYSQL://localhost:3306/ewb";
+    String sUser = "root";
+    String sPass = "";
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,6 +45,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         notepad = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         logOut = new javax.swing.JMenuItem();
 
@@ -167,6 +171,17 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem6);
 
+        jMenuItem5.setBackground(new java.awt.Color(204, 204, 204));
+        jMenuItem5.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8-information-20.png"))); // NOI18N
+        jMenuItem5.setText("Update Your Information");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setBackground(new java.awt.Color(204, 204, 204));
@@ -252,6 +267,34 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+       Connection con = DriverManager.getConnection(sUrl, sUser, sPass);
+        String query = "SELECT name, username, password FROM user WHERE userT = 'Admin'";
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+            
+            // Open adminIF frame with fetched data
+            adminIF a = new adminIF(name,username,password);
+            a.setVisible(true);
+            a.setLocationRelativeTo(this);
+        }
+        con.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+        
+         
+        
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -299,6 +342,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
